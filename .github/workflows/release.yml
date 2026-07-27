@@ -139,8 +139,10 @@ jobs:
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
-          # PAT/fine-grained: bypass ruleset "Require a pull request" no push do bump
-          token: ${{ secrets.RELEASE_TOKEN }}
+          # GITHUB_TOKEN: contents:write (sem ruleset/branch protection em main hoje).
+          # Se um ruleset bloquear push do bot, use PAT org em RELEASE_TOKEN com Contents: Write
+          # nos repos e troque para secrets.RELEASE_TOKEN.
+          token: ${{ github.token }}
 
       - name: Bump package.json and app.json
         env:
@@ -174,7 +176,7 @@ jobs:
 
       - name: Create GitHub Release
         env:
-          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.decide.outputs.tag }}
         run: |
           set -euo pipefail
