@@ -1,56 +1,90 @@
-# Welcome to your Expo app 👋
+# Mega Partner
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App Expo para **sócios e investidores** de eletropostos (extrato de repasses, Stripe Connect e preferências).
 
-## Get started
+Não é o app do motorista (`mobile/`) nem o Mega Support (`megasupport/`).
 
-1. Install dependencies
+Documentação canônica: [**megavoltz-docs**](https://github.com/megacoderz/megavoltz-docs) · Split N-way: [`site-partner-splits.md`](https://github.com/megacoderz/megavoltz-docs/blob/main/technical/site-partner-splits.md)
 
-   ```bash
-   npm install
-   ```
+## Escopo
 
-2. Start the app
+| Dentro                                         | Fora                           |
+| ---------------------------------------------- | ------------------------------ |
+| Auth magic-link (`x-partner-token`)            | Recarga, wallet, mapa, OCPP    |
+| Extrato de repasses (`invoice_partner_splits`) | Operação de postos / staff CPO |
+| Status Stripe Connect + reenvio Account Link   | Inbox de suporte L1            |
+| Preferências: idioma + aparência               | —                              |
 
-   ```bash
-   npx expo start
-   ```
+## Pré-requisitos
 
-In the output, you'll find options to open the app in a
+- **Bun** 1.3+ (`packageManager` no `package.json`)
+- **Node.js** >= 24
+- API Mega Voltz em `EXPO_PUBLIC_API_URL`
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## Setup
 
 ```bash
-npm run reset-project
+make env-init   # copia env.example.dist → .env se ausente
+bun install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Variáveis principais em `env.example.dist`:
 
-### Other setup steps
+- `EXPO_PUBLIC_API_URL` — base da API **sem** `/v1` (ex.: `http://localhost:3001`)
+- `EXPO_PUBLIC_APP_DISPLAY_NAME=Mega Partner`
+- `EXPO_PUBLIC_PRIMARY_COLOR=#0284c7`
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Em **device físico**, use o IP LAN da máquina (não `localhost`).
 
-## Learn more
+Device iOS com **Personal Team** (Apple ID gratuito): descomente no `.env` o bloco `EXPO_IOS_PERSONAL_TEAM` em `env.example.dist` (`EXPO_IOS_BUNDLE_IDENTIFIER=br.com.megacoderz.megacpo.app`), depois `bun run prebuild:clean && bun run ios -- --device`.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Desenvolvimento
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+bun run start
+# ou
+make start
+```
 
-## Join the community
+## Quality gates
 
-Join our community of developers creating universal apps.
+```bash
+bun run format
+bun run verify          # lint → typecheck → test:cov
+bun run i18n:check
+make verify             # equivalente via Makefile
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Antes de preview/produção:
+
+```bash
+bun run verify:release  # verify + i18n + expo-doctor
+```
+
+## Estrutura
+
+```
+src/app/(auth)/login|verify
+src/app/(app)/(tabs)/index|earnings|profile
+src/app/(app)/appearance
+src/services/          # api-client, partner, session/locale/appearance storage
+src/locales/           # pt-BR, en-US, es-ES
+src/schemas/           # Zod (auth magic-link)
+```
+
+## Auth e API
+
+- Sessão via **magic-link** → `sessionToken` em **expo-secure-store**
+- Header `x-partner-token` nas rotas `/v1/partner/*`
+- Chamadas diretas a `{EXPO_PUBLIC_API_URL}/v1/...` (sem BFF web)
+- Enviar `Accept-Language` alinhado ao locale da UI (`pt-BR` / `en-US` / `es-ES`)
+
+## EAS
+
+Ver [`EAS_PUBLISH.md`](EAS_PUBLISH.md) e `eas.json` (profiles `preview` / `production`).
+
+```bash
+bun run validate:eas:preview   # ou validate:eas (production)
+bun run build:preview
+bun run build:production
+```
