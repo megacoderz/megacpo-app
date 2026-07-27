@@ -1,0 +1,8 @@
+[install]
+frozenLockfile = false
+
+[install.lockfile]
+save = true
+
+[run]
+bun = false
