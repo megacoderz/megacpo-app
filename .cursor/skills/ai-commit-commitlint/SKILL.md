@@ -26,13 +26,16 @@ Garante que **todo commit feito pela IA** siga **Conventional Commits** compatí
 | Usuário pede mensagem de commit                   | Gerar mensagem; commitar só se pedido                               |
 | Review/pergunta sem alterações locais             | Não commitar                                                        |
 
-**Ordem ao encerrar plano:** quality gates → i18n (se aplicável) → sync docs → **este fluxo** → reporte.
+**Ordem ao encerrar plano:** quality gates → i18n (se aplicável) → sync docs → **[`commit-on-feature-branch`](../commit-on-feature-branch/SKILL.md)** → **este fluxo** → reporte.
+
+**Branch:** nunca commitar em `main` — só via feature branch + PR. Ver skill acima.
 
 ---
 
 ## Fluxo (obrigatório)
 
 ```
+0. Feature branch          → commit-on-feature-branch (obrigatório; nunca commit em main)
 1. Verificar escopo        → git status; confirmar arquivos da implementação
 2. Ler histórico           → git log -10 (estilo do repositório)
 3. Analisar diff           → git diff + git diff --cached
@@ -42,7 +45,7 @@ Garante que **todo commit feito pela IA** siga **Conventional Commits** compatí
 7. Stage seletivo          → git add dos arquivos relevantes (incluir `.cursor/plans/*.plan.md` se alterado)
 8. Commit                  → HEREDOC; nunca --no-verify
 9. Hook falhou?            → corrigir e NOVO commit (não amend salvo exceção)
-10. Reportar               → hash curto + subject + lista resumida
+10. Reportar               → branch + hash curto + subject + lista resumida
 ```
 
 Executar `git status`, `git diff` e `git log` **em paralelo** quando possível.
@@ -144,12 +147,13 @@ Preferir **um commit** por plano concluído. Múltiplos commits só se o usuári
 
 ## Protocolo git seguro
 
+- **Nunca** commitar em `main` / `master` — usar [`commit-on-feature-branch`](../commit-on-feature-branch/SKILL.md)
 - **Nunca** alterar `git config`
 - **Nunca** `git push --force`, `reset --hard`, ou comandos destrutivos (salvo pedido explícito)
 - **Nunca** `--no-verify` / pular hooks
 - **Nunca** commitar `.env`, credenciais, `*.pem`, tokens
 - **Amend** só se: usuário pediu amend **ou** hook pré-commit alterou arquivos **e** HEAD foi criado pela IA nesta sessão **e** branch não foi pushada
-- **Push** somente quando o usuário pedir
+- **Push** somente quando o usuário pedir — e nesse caso **sempre** `gh pr create` em seguida ([`commit-on-feature-branch`](../commit-on-feature-branch/SKILL.md))
 
 ### Comando de commit (padrão)
 
@@ -185,6 +189,7 @@ Após commit: `git status` para confirmar working tree limpa (ou só arquivos in
 
 ## Checklist antes de commitar
 
+- [ ] Branch ≠ `main` / `master` ([`commit-on-feature-branch`](../commit-on-feature-branch/SKILL.md))
 - [ ] Type está na lista permitida
 - [ ] Subject imperativo, minúsculo, ≤ 72 chars, sem ponto final
 - [ ] Scope reflete módulo (ou omitido conscientemente)
@@ -199,9 +204,10 @@ Após commit: `git status` para confirmar working tree limpa (ou só arquivos in
 ```markdown
 ### Commit
 
+- **Branch:** `feat/partner-statement-list`
 - **Hash:** `abc1234`
-- **Mensagem:** `feat(billing): implement marketplace split and royalty settlement`
-- **Inclui:** api billing module, docs billing.md, plan todos completed
+- **Mensagem:** `feat(partner): add statement list screen`
+- **Inclui:** extrato FlatList, services, i18n
 - **Não commitado:** (se houver — ex. `.env.local` local)
 ```
 
@@ -209,6 +215,7 @@ Após commit: `git status` para confirmar working tree limpa (ou só arquivos in
 
 ## Referências
 
+- Branch off main: [`commit-on-feature-branch`](../commit-on-feature-branch/SKILL.md)
 - Config: [`./commitlint.config.js`](../.././commitlint.config.js) — `@commitlint/config-conventional` + tipos do projeto
 - Hook: [`./.husky/commit-msg`](../.././.husky/commit-msg) — Husky 9 na raiz do monorepo
 - Regra always-apply: [`.cursor/rules/ai-commits-commitlint.mdc`](../../rules/ai-commits-commitlint.mdc)

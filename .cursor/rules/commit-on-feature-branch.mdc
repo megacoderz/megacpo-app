@@ -1,0 +1,30 @@
+---
+description: >-
+  Commits da IA nunca na main — branch a partir de main antes de
+  commitar. Pedido de push implica push + criar PR (gh). Dispara skill
+  commit-on-feature-branch.
+alwaysApply: true
+---
+
+# Commits → branch nova (nunca em `main`)
+
+Em `megacpo/`, commits e push **não** vão direto para `main` — só via feature branch + PR (política Mega Voltz).
+
+## Inegociável
+
+- **Nunca** `git commit` / `git push` com a branch atual igual a `main` (ou `master`)
+- Ao pedir commit (ou commit obrigatório de plano): ler e seguir [`commit-on-feature-branch`](../skills/commit-on-feature-branch/SKILL.md)
+- Só depois aplicar [`ai-commit-commitlint`](../skills/ai-commit-commitlint/SKILL.md)
+- Ao pedir **push**: `git push -u origin HEAD` **e em seguida** `gh pr create` (base `main`); se já houver PR, só reportar a URL
+
+## Fluxo mínimo
+
+1. `git branch --show-current`
+2. Se `main` → `fetch` + `checkout main` atualizada → `checkout -b <type>/<slug>`
+3. Commit commitlint **nessa** branch
+4. Reportar **branch** + hash + subject
+5. Se o usuário pedir **push** → push + **criar PR** → reportar URL do PR
+
+## Hierarquia
+
+`código` → quality gates → i18n → docs → **feature branch off main** → commit commitlint → (push pedido) **push + PR** → reporte
