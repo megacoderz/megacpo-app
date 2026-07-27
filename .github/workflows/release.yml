@@ -1,0 +1,181 @@
+# Release: SemVer + tag + GitHub Release no merge em main (package.json + app.json).
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-megacpo
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  decide:
+    name: Decide bump
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.calc.outputs.should_release }}
+      new_version: ${{ steps.calc.outputs.new_version }}
+      tag: ${{ steps.calc.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Calculate version
+        id: calc
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          HEAD_MSG="$(git log -1 --pretty=%B)"
+          if echo "$HEAD_MSG" | grep -qF '[skip-release]'; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            echo "Skip: commit contains [skip-release]"
+            exit 0
+          fi
+
+          PR_JSON="$(gh api "repos/${{ github.repository }}/commits/${{ github.sha }}/pulls" --jq '.' 2>/dev/null || echo '[]')"
+          if echo "$PR_JSON" | jq -e 'map(.labels[].name) | flatten | index("skip-release") != null' >/dev/null 2>&1; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            echo "Skip: PR has label skip-release"
+            exit 0
+          fi
+
+          LAST_TAG="$(git tag -l 'v*' --sort=-v:refname | head -n1 || true)"
+
+          if [[ -n "$LAST_TAG" ]]; then
+            COMMITS="$(git log "${LAST_TAG}..HEAD" --pretty=%s)"
+            BODIES="$(git log "${LAST_TAG}..HEAD" --pretty=%b)"
+          else
+            COMMITS="$(git log --pretty=%s)"
+            BODIES="$(git log --pretty=%b)"
+          fi
+
+          BUMP=""
+          while IFS= read -r subject || [[ -n "${subject:-}" ]]; do
+            [[ -z "$subject" ]] && continue
+            lower="$(echo "$subject" | tr '[:upper:]' '[:lower:]')"
+            if echo "$lower" | grep -qE '^[a-z]+(\([^)]+\))?!:' || echo "$subject" | grep -qi 'BREAKING CHANGE'; then
+              BUMP="major"
+              break
+            fi
+            if echo "$lower" | grep -qE '^feat(\(|:|!)'; then
+              if [[ "$BUMP" != "major" ]]; then
+                BUMP="minor"
+              fi
+              continue
+            fi
+            if echo "$lower" | grep -qE '^(fix|perf|refactor)(\(|:|!)'; then
+              if [[ -z "$BUMP" ]]; then
+                BUMP="patch"
+              fi
+            fi
+          done <<< "$COMMITS"
+
+          if echo "$BODIES" | grep -qi 'BREAKING CHANGE'; then
+            BUMP="major"
+          fi
+
+          if [[ -z "$BUMP" ]]; then
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+            echo "Skip: no releasable conventional commits (feat/fix/perf/refactor/BREAKING)"
+            exit 0
+          fi
+
+          CURRENT="$(jq -r .version package.json)"
+          if ! echo "$CURRENT" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "ERROR: package.json version must be X.Y.Z, got: $CURRENT" >&2
+            exit 1
+          fi
+
+          IFS=. read -r MAJOR MINOR PATCH <<< "$CURRENT"
+          case "$BUMP" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW="${MAJOR}.${MINOR}.${PATCH}"
+          TAG="v${NEW}"
+
+          if [[ "$MAJOR" -gt 999 || "$MINOR" -gt 999 || "$PATCH" -gt 999 ]]; then
+            echo "ERROR: version ${NEW} exceeds limit 999.999.999" >&2
+            exit 1
+          fi
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "ERROR: tag ${TAG} already exists" >&2
+            exit 1
+          fi
+
+          echo "should_release=true" >> "$GITHUB_OUTPUT"
+          echo "new_version=${NEW}" >> "$GITHUB_OUTPUT"
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+          echo "Bump ${BUMP}: ${CURRENT} → ${NEW}"
+
+  release:
+    name: Tag and publish release
+    needs: decide
+    if: needs.decide.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          # PAT/fine-grained: bypass ruleset "Require a pull request" no push do bump
+          token: ${{ secrets.RELEASE_TOKEN }}
+
+      - name: Bump package.json and app.json
+        env:
+          NEW_VERSION: ${{ needs.decide.outputs.new_version }}
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp)"
+          jq --arg v "$NEW_VERSION" '.version = $v' package.json > "$tmp"
+          mv "$tmp" package.json
+          tmp="$(mktemp)"
+          jq --arg v "$NEW_VERSION" '.expo.version = $v' app.json > "$tmp"
+          mv "$tmp" app.json
+
+      - name: Commit, tag and push
+        env:
+          TAG: ${{ needs.decide.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json app.json
+          git commit -m "$(cat <<EOF
+          chore(release): ${TAG}
+
+          [skip-release]
+          EOF
+          )"
+          git tag "$TAG"
+          git push origin HEAD:main
+          git push origin "$TAG"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          TAG: ${{ needs.decide.outputs.tag }}
+        run: |
+          set -euo pipefail
+          gh release create "$TAG" --generate-notes --latest --title "$TAG"
