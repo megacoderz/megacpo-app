@@ -1,18 +1,67 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Fragment, useEffect, useMemo, useState } from 'react'
+import { I18nextProvider } from 'react-i18next'
+import { KeyboardProvider } from 'react-native-keyboard-controller'
+import { ThemeProvider as NavigationThemeProvider, Slot } from 'expo-router'
+import * as SystemUI from 'expo-system-ui'
+import { StatusBar } from 'expo-status-bar'
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import i18n, { hydrateAppLocale } from '@/i18n'
+import { AppearanceProvider } from '@/hooks/appearance-provider'
+import { useAppColorScheme } from '@/hooks/use-app-color-scheme'
+import { PartnerAuthGate, PartnerAuthProvider } from '@/hooks/use-partner-auth'
+import { useTheme } from '@/hooks/use-theme'
+import { buildNavigationTheme } from '@/theme/navigation-theme'
 
-SplashScreen.preventAutoHideAsync();
+const SystemUiSync = () => {
+  const theme = useTheme()
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  useEffect(() => {
+    void SystemUI.setBackgroundColorAsync(theme.background)
+  }, [theme.background])
+
+  return null
+}
+
+const RootProviders = () => {
+  const colorScheme = useAppColorScheme()
+  const navigationTheme = useMemo(
+    () => buildNavigationTheme(colorScheme),
+    [colorScheme],
+  )
+
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
-  );
+    <NavigationThemeProvider value={navigationTheme}>
+      <PartnerAuthProvider>
+        <Fragment>
+          <SystemUiSync />
+          <PartnerAuthGate>
+            <Slot />
+            <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          </PartnerAuthGate>
+        </Fragment>
+      </PartnerAuthProvider>
+    </NavigationThemeProvider>
+  )
+}
+
+export default function RootLayout() {
+  const [isLocaleReady, setIsLocaleReady] = useState(false)
+
+  useEffect(() => {
+    void hydrateAppLocale().finally(() => setIsLocaleReady(true))
+  }, [])
+
+  if (!isLocaleReady) {
+    return null
+  }
+
+  return (
+    <I18nextProvider i18n={i18n}>
+      <KeyboardProvider>
+        <AppearanceProvider>
+          <RootProviders />
+        </AppearanceProvider>
+      </KeyboardProvider>
+    </I18nextProvider>
+  )
 }

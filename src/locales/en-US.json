@@ -1,0 +1,107 @@
+{
+  "common": {
+    "error": "Something went wrong",
+    "loading": "Loading…",
+    "cancel": "Cancel",
+    "retry": "Try again",
+    "back": "Back",
+    "apiCommunicationError": "Failed to communicate with the server",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "tabs": {
+    "home": "Home",
+    "earnings": "Earnings",
+    "profile": "Profile"
+  },
+  "auth": {
+    "welcome": "Welcome to {{appName}}",
+    "requiredLogin": "Access for Mega Voltz station partners and investors",
+    "email": "Email",
+    "sendLink": "Send access link",
+    "linkSent": "If the email exists, we sent an access link.",
+    "haveTokenTitle": "Already have a link or code?",
+    "haveTokenSubtitle": "Paste the code you received by email to sign in",
+    "tokenLabel": "Verification code",
+    "verifyAction": "Verify",
+    "verifying": "Verifying access…",
+    "verifyTitle": "Confirm access",
+    "verifySubtitle": "Confirm the code received by email to continue",
+    "verifyError": "We couldn't verify this code",
+    "sessionExpired": "Your session expired. Request a new access link.",
+    "tokenInvalid": "Invalid or already used code",
+    "tokenExpired": "Expired code. Request a new access link.",
+    "logout": "Sign out",
+    "validation": {
+      "email": "Enter a valid email",
+      "token": "Enter the code received by email"
+    }
+  },
+  "home": {
+    "title": "Home",
+    "email": "Email",
+    "kind": "Type",
+    "status": "Status",
+    "kindLabel": {
+      "station_owner": "Station owner",
+      "investor": "Investor"
+    },
+    "statusLabel": {
+      "pending": "Pending",
+      "active": "Active",
+      "suspended": "Suspended"
+    },
+    "connect": {
+      "title": "Payouts (Stripe Connect)",
+      "missing": "Payout account not set up",
+      "pending": "Setup in progress",
+      "connected": "Account connected and ready to receive payouts",
+      "disconnected": "Account disconnected",
+      "error": "Error connecting with Stripe",
+      "cta": "Set up payouts"
+    }
+  },
+  "earnings": {
+    "title": "Earnings",
+    "empty": "No payouts found yet",
+    "from": "From",
+    "to": "To",
+    "applyPeriod": "Filter",
+    "exportCsv": "Export CSV",
+    "exporting": "Exporting…",
+    "exportTitle": "Statement {{month}}",
+    "totalTransferred": "Total transferred",
+    "totalPending": "Total pending",
+    "splitPercent": "{{percent}}% share",
+    "statusLabel": {
+      "pending": "Pending",
+      "transferred": "Transferred",
+      "failed": "Failed",
+      "skipped": "Not applicable"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "email": "Email",
+    "tenant": "Network",
+    "language": "Language",
+    "appearance": "Appearance",
+    "selected": "Current",
+    "menu": {
+      "appearance": {
+        "title": "Appearance",
+        "subtitle": "System, light or dark"
+      }
+    },
+    "appearanceOptions": {
+      "system": "System",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "locale": {
+      "pt-BR": "Português (Brasil)",
+      "en-US": "English (US)",
+      "es-ES": "Español"
+    }
+  }
+}

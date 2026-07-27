@@ -1,0 +1,107 @@
+{
+  "common": {
+    "error": "Algo salió mal",
+    "loading": "Cargando…",
+    "cancel": "Cancelar",
+    "retry": "Intentar de nuevo",
+    "back": "Volver",
+    "apiCommunicationError": "Error de comunicación con el servidor",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "tabs": {
+    "home": "Inicio",
+    "earnings": "Extracto",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "welcome": "Bienvenido a {{appName}}",
+    "requiredLogin": "Acceso para socios e inversionistas de electropostos Mega Voltz",
+    "email": "Correo electrónico",
+    "sendLink": "Enviar enlace de acceso",
+    "linkSent": "Si el correo existe, enviamos un enlace de acceso.",
+    "haveTokenTitle": "¿Ya tienes un enlace o código?",
+    "haveTokenSubtitle": "Pega el código recibido por correo para ingresar",
+    "tokenLabel": "Código de verificación",
+    "verifyAction": "Verificar",
+    "verifying": "Verificando acceso…",
+    "verifyTitle": "Confirmar acceso",
+    "verifySubtitle": "Confirma el código recibido por correo para continuar",
+    "verifyError": "No pudimos verificar este código",
+    "sessionExpired": "Tu sesión expiró. Solicita un nuevo enlace de acceso.",
+    "tokenInvalid": "Código inválido o ya utilizado",
+    "tokenExpired": "Código expirado. Solicita un nuevo enlace de acceso.",
+    "logout": "Cerrar sesión",
+    "validation": {
+      "email": "Ingresa un correo válido",
+      "token": "Ingresa el código recibido por correo"
+    }
+  },
+  "home": {
+    "title": "Inicio",
+    "email": "Correo electrónico",
+    "kind": "Tipo",
+    "status": "Estado",
+    "kindLabel": {
+      "station_owner": "Socio del posto",
+      "investor": "Inversionista"
+    },
+    "statusLabel": {
+      "pending": "Pendiente",
+      "active": "Activo",
+      "suspended": "Suspendido"
+    },
+    "connect": {
+      "title": "Pagos (Stripe Connect)",
+      "missing": "Cuenta de pago no configurada",
+      "pending": "Configuración en curso",
+      "connected": "Cuenta conectada y lista para recibir pagos",
+      "disconnected": "Cuenta desconectada",
+      "error": "Error en la conexión con Stripe",
+      "cta": "Configurar cobros"
+    }
+  },
+  "earnings": {
+    "title": "Extracto",
+    "empty": "Aún no hay transferencias",
+    "from": "Desde",
+    "to": "Hasta",
+    "applyPeriod": "Filtrar",
+    "exportCsv": "Exportar CSV",
+    "exporting": "Exportando…",
+    "exportTitle": "Extracto {{month}}",
+    "totalTransferred": "Total transferido",
+    "totalPending": "Total pendiente",
+    "splitPercent": "Participación del {{percent}}%",
+    "statusLabel": {
+      "pending": "Pendiente",
+      "transferred": "Transferido",
+      "failed": "Falló",
+      "skipped": "No aplicable"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "email": "Correo electrónico",
+    "tenant": "Red",
+    "language": "Idioma",
+    "appearance": "Apariencia",
+    "selected": "Actual",
+    "menu": {
+      "appearance": {
+        "title": "Apariencia",
+        "subtitle": "Sistema, claro u oscuro"
+      }
+    },
+    "appearanceOptions": {
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "locale": {
+      "pt-BR": "Português (Brasil)",
+      "en-US": "English (US)",
+      "es-ES": "Español"
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "common": {
+    "error": "Algo deu errado",
+    "loading": "Carregando…",
+    "cancel": "Cancelar",
+    "retry": "Tentar novamente",
+    "back": "Voltar",
+    "apiCommunicationError": "Falha de comunicação com o servidor",
+    "yes": "Sim",
+    "no": "Não"
+  },
+  "tabs": {
+    "home": "Início",
+    "earnings": "Extrato",
+    "profile": "Perfil"
+  },
+  "auth": {
+    "welcome": "Bem-vindo ao {{appName}}",
+    "requiredLogin": "Acesso para sócios e investidores de eletropostos Mega Voltz",
+    "email": "E-mail",
+    "sendLink": "Enviar link de acesso",
+    "linkSent": "Se o e-mail existir, enviamos um link de acesso.",
+    "haveTokenTitle": "Já tem um link ou código?",
+    "haveTokenSubtitle": "Cole o código recebido por e-mail para entrar",
+    "tokenLabel": "Código de verificação",
+    "verifyAction": "Verificar",
+    "verifying": "Verificando acesso…",
+    "verifyTitle": "Confirmar acesso",
+    "verifySubtitle": "Confirme o código recebido por e-mail para continuar",
+    "verifyError": "Não foi possível verificar este código",
+    "sessionExpired": "Sua sessão expirou. Solicite um novo link de acesso.",
+    "tokenInvalid": "Código inválido ou já utilizado",
+    "tokenExpired": "Código expirado. Solicite um novo link de acesso.",
+    "logout": "Sair",
+    "validation": {
+      "email": "Informe um e-mail válido",
+      "token": "Informe o código recebido por e-mail"
+    }
+  },
+  "home": {
+    "title": "Início",
+    "email": "E-mail",
+    "kind": "Tipo",
+    "status": "Status",
+    "kindLabel": {
+      "station_owner": "Sócio do posto",
+      "investor": "Investidor"
+    },
+    "statusLabel": {
+      "pending": "Pendente",
+      "active": "Ativo",
+      "suspended": "Suspenso"
+    },
+    "connect": {
+      "title": "Pagamentos (Stripe Connect)",
+      "missing": "Conta de pagamento não configurada",
+      "pending": "Configuração em andamento",
+      "connected": "Conta conectada e pronta para receber",
+      "disconnected": "Conta desconectada",
+      "error": "Erro na conexão com o Stripe",
+      "cta": "Configurar recebimento"
+    }
+  },
+  "earnings": {
+    "title": "Extrato",
+    "empty": "Nenhum repasse encontrado ainda",
+    "from": "De",
+    "to": "Até",
+    "applyPeriod": "Filtrar",
+    "exportCsv": "Exportar CSV",
+    "exporting": "Exportando…",
+    "exportTitle": "Extrato {{month}}",
+    "totalTransferred": "Total repassado",
+    "totalPending": "Total pendente",
+    "splitPercent": "Participação de {{percent}}%",
+    "statusLabel": {
+      "pending": "Pendente",
+      "transferred": "Repassado",
+      "failed": "Falhou",
+      "skipped": "Não aplicável"
+    }
+  },
+  "profile": {
+    "title": "Perfil",
+    "email": "E-mail",
+    "tenant": "Rede",
+    "language": "Idioma",
+    "appearance": "Aparência",
+    "selected": "Atual",
+    "menu": {
+      "appearance": {
+        "title": "Aparência",
+        "subtitle": "Sistema, claro ou escuro"
+      }
+    },
+    "appearanceOptions": {
+      "system": "Sistema",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
+    "locale": {
+      "pt-BR": "Português (Brasil)",
+      "en-US": "English (US)",
+      "es-ES": "Español"
+    }
+  }
+}
