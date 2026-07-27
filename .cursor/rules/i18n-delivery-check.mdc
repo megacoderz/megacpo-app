@@ -1,0 +1,41 @@
+---
+description: >-
+  Ao implementar planos ou alterar api/, web/ ou mobile/,
+  verificar i18n de erros, validações e UI. Dispara skill i18n-delivery-check.
+alwaysApply: true
+---
+
+# Entrega → verificação i18n
+
+Sempre que **implementar**, **concluir todos** ou **alterar código** em `api/`, `web/` ou `mobile/`:
+
+1. **Ler a skill** [`.cursor/skills/i18n-delivery-check/SKILL.md`](../skills/i18n-delivery-check/SKILL.md) e seguir o fluxo da(s) camada(s) tocada(s).
+2. **Conferir paridade** pt-BR + en-US + es-ES nos JSON de idiomas correspondentes.
+3. **Corrigir gaps** antes de encerrar — chave ausente em `errors.json` ou `messages/*.json` é bug.
+4. **Reportar** resumo i18n ao usuário (junto com sync de docs se plano implementado).
+
+## Arquivos de catálogo (referência rápida)
+
+| Camada            | pt-BR                                | en-US                                |
+| ----------------- | ------------------------------------ | ------------------------------------ |
+| API erros         | `api/src/i18n/pt-BR/errors.json`     | `api/src/i18n/en-US/errors.json`     | `api/src/i18n/es-ES/errors.json`     |
+| API validação DTO | `api/src/i18n/pt-BR/validation.json` | `api/src/i18n/en-US/validation.json` | `api/src/i18n/es-ES/validation.json` |
+| Web UI            | `web/messages/pt-BR.json`            | `web/messages/en-US.json`            | `web/messages/es-ES.json`            |
+| Mobile UI         | `mobile/src/locales/pt-BR.json`      | `mobile/src/locales/en-US.json`      | `mobile/src/locales/es-ES.json`      |
+
+## Definição de pronto (DoD)
+
+Entrega **não está pronta** sem:
+
+- [ ] Todo `apiError('CODE')` novo tem `CODE` em **ambos** `errors.json`
+- [ ] Nenhum erro/validação/UI com string hardcoded PT/EN onde deveria haver chave i18n
+- [ ] Chaves novas em **pt-BR e en-US** com mesma estrutura JSON
+- [ ] BFF/forms mobile usam tradutor Zod — não defaults em inglês do Zod
+
+## Regras inegociáveis
+
+- API: `throw apiError(code, status)` — mensagem só via nestjs-i18n
+- Clientes enviam `Accept-Language: pt-BR|en-US|es-ES` alinhado ao locale da UI
+- `error.code` estável; `error.message` traduzida pela API
+
+Não encerrar implementação de plano ou feature com alterações nessas camadas sem executar esta verificação.

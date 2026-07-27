@@ -1,0 +1,29 @@
+---
+description: >-
+  Ao criar ou atualizar planos em .cursor/plans/, adicionar ao git (git add)
+  na mesma sessão. Dispara skill plan-git-track.
+alwaysApply: true
+---
+
+# Planos → git add obrigatório
+
+Sempre que **criar** ou **editar** um plano em [`.cursor/plans/`](../plans/):
+
+1. **Ler a skill** [`.cursor/skills/plan-git-track/SKILL.md`](../skills/plan-git-track/SKILL.md).
+2. **Executar** `git add .cursor/plans/<arquivo>.plan.md` antes de encerrar a sessão.
+3. **Confirmar** com `git status` que o plano está staged.
+4. **Reportar** o path adicionado ao usuário.
+
+## Quando commitar
+
+| Situação                       | Commit                                                                      |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| Plano novo (rascunho)          | Não — salvo pedido explícito                                                |
+| Plano + implementação completa | Sim — via [`ai-commit-commitlint`](../skills/ai-commit-commitlint/SKILL.md) |
+| Usuário pede commit            | Sim                                                                         |
+
+## Hierarquia ao criar plano
+
+`criar plano` → **git add plano** → (implementação futura) → quality gates → i18n → docs → commit
+
+Não encerrar sessão que criou plano sem adicioná-lo ao git.

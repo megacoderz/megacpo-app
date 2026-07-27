@@ -1,0 +1,53 @@
+{
+  "cli": {
+    "version": ">= 16.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "bun": "1.3.14",
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "development"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+    "preview": {
+      "bun": "1.3.14",
+      "distribution": "internal",
+      "env": {
+        "APP_ENV": "preview",
+        "EXPO_PUBLIC_SENTRY_ENVIRONMENT": "preview"
+      }
+    },
+    "production": {
+      "bun": "1.3.14",
+      "autoIncrement": true,
+      "env": {
+        "APP_ENV": "production",
+        "EXPO_PUBLIC_SENTRY_ENABLED": "true",
+        "EXPO_PUBLIC_SENTRY_ENVIRONMENT": "production"
+      },
+      "ios": {
+        "resourceClass": "m-medium"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "android": {
+        "track": "internal",
+        "releaseStatus": "draft"
+      },
+      "ios": {
+        "language": "pt-BR"
+      }
+    },
+    "preview": {
+      "extends": "production"
+    }
+  }
+}

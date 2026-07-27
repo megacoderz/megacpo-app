@@ -1,0 +1,31 @@
+---
+description: Use Bun as the package manager (install, run, bunx). Node remains the runtime.
+alwaysApply: true
+---
+
+# Bun — gerenciador de pacotes canônico
+
+Use **Bun** para instalar dependências e executar scripts neste repositório.
+
+| Em vez de           | Use                     |
+| ------------------- | ----------------------- |
+| `npm install`       | `bun install`           |
+| `npm run <script>`  | `bun run <script>`      |
+| `npx <pkg>`         | `bunx <pkg>`            |
+| `package-lock.json` | `bun.lock` (versionado) |
+
+## Runtime
+
+- **Node.js >=24** para NestJS, Jest, Vitest, Next.js, Expo e `node dist/...` em produção (`engines.node`, `@types/node` ^24)
+- Não migrar Jest/Vitest para `bun:test` sem plano dedicado
+- Para Jest/Vitest: **`bun run test`** (não `bun test`)
+
+## Pré-requisitos
+
+- Bun 1.3+ (`packageManager` no `package.json`, ex.: `bun@1.3.14`)
+- Node >=24 no PATH quando o tooling exigir
+
+## Configuração
+
+- `bunfig.toml` — `[run] bun = false` (PM only)
+- `trustedDependencies` para natives quando necessário

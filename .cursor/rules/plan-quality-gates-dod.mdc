@@ -1,0 +1,41 @@
+---
+description: >-
+  Ao criar planos em .cursor/plans/, incluir lint, build e testes como DoD
+  obrigatório (todo quality-gates + seção Definição de pronto). Dispara skill
+  plan-quality-gates-dod.
+alwaysApply: true
+---
+
+# Novo plano → DoD com quality gates
+
+Sempre que **criar**, **estruturar** ou **revisar** um plano em [`.cursor/plans/`](../plans/):
+
+1. **Ler a skill** [`.cursor/skills/plan-quality-gates-dod/SKILL.md`](../skills/plan-quality-gates-dod/SKILL.md) e aplicar o template.
+2. **Incluir todo** `quality-gates` no frontmatter YAML (`status: pending`).
+3. **Incluir seção** `## Definição de pronto (DoD)` com tabela de comandos por pacote tocado.
+4. **Fechar plano completo** com `bun run verify` quando escopo incluir app.
+5. **Versionar no git** — [`plan-git-track`](../skills/plan-git-track/SKILL.md): `git add` do arquivo na mesma sessão.
+
+## Todo mínimo (frontmatter)
+
+```yaml
+  - id: quality-gates
+    content: Lint, build/typecheck e testes nos pacotes tocados; verify-mvp.sh ao fechar
+    status: pending
+```
+
+## Ordem dos todos finais
+
+`…escopo funcional…` → **`quality-gates`** → `docs-sync` (se houver) → demais pós-entrega
+
+## Exceção
+
+Planos **somente** `docs/` ou `.cursor/` sem alteração em `api/`, `web/` ou `mobile/` — omitir todo e seção de gates de app.
+
+## Hierarquia de encerramento
+
+`implementação` → **`bun lint --fix` (se web)** → **quality gates** → i18n → docs → commit
+
+**Web:** DoD deve listar `bun lint --fix` antes de lint/build/test (autofix Tailwind/ESLint).
+
+Não criar plano de feature de app sem DoD explícito de lint, build e testes.

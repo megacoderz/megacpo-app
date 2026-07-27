@@ -1,0 +1,57 @@
+---
+description: Mobile Expo — preferir pacotes oficiais do SDK e fluxo expo install
+globs: **/*
+alwaysApply: false
+---
+
+# Mobile — pacotes Expo primeiro
+
+Ao implementar ou adicionar dependências em `mobile/`, **prefira sempre soluções oficiais do ecossistema Expo** antes de bibliotecas de terceiros.
+
+## Hierarquia de escolha
+
+1. **Módulo `expo-*`** do SDK (ex.: `expo-camera`, `expo-secure-store`, `expo-router`)
+2. **API built-in** do React Native quando o guia Expo não indicar módulo dedicado (ex.: `KeyboardAvoidingView`, `ScrollView`, `FlatList`)
+3. **Pacote recomendado na documentação Expo** para o caso de uso (ex.: [`keyboard-handling`](https://docs.expo.dev/guides/keyboard-handling/))
+4. **Terceiro** — só com justificativa explícita quando não houver opção nas camadas acima
+
+## Instalação
+
+| Evitar                       | Preferir                                                   |
+| ---------------------------- | ---------------------------------------------------------- |
+| `bun add expo-camera`        | `bunx expo install expo-camera`                            |
+| `bun add react-native-maps`  | `bunx expo install react-native-maps`                      |
+| Versão manual sem checar SDK | Versão alinhada ao **Expo SDK 57** (`mobile/package.json`) |
+
+Use **`bunx expo install <pacote>`** para módulos Expo e dependências que o Expo versiona. Isso garante compatibilidade com o SDK atual.
+
+## Antes de codar
+
+1. Ler a doc versionada: https://docs.expo.dev/versions/v57.0.0/
+2. Buscar guia de domínio em https://docs.expo.dev/guides/ (câmera, teclado, notificações, etc.)
+3. Conferir se já existe dependência equivalente em `mobile/package.json`
+
+## Módulos nativos
+
+- Pacotes com código nativo exigem **dev client** (`expo-dev-client`) — não funcionam no Expo Go
+- Após adicionar dependência nativa nova: **rebuild** (`bun run ios` / `bun run android` ou `prebuild:clean`)
+- Não assumir que hot reload/linking automático basta após `bun install`
+
+## O que evitar
+
+- Adicionar lib de terceiros quando existir `expo-*` equivalente documentado
+- Duplicar capacidades (ex.: dois clientes HTTP, dois sistemas de storage seguro)
+- Pacotes sem suporte ao New Architecture / SDK 57 sem avaliar impacto
+- `bun add` direto em pacotes que o Expo mantém na matriz de compatibilidade
+- **TypeScript 7+** em `mobile/` — quebra a leitura de `app.config.ts` no EAS (`Cannot read properties of undefined (reading 'CommonJS')`). Manter `typescript` em **6.0.3** (fixo) até o Expo suportar v7
+- Preferir **`app.config.js`** (CommonJS) em vez de `app.config.ts` — o `eas-cli` global pode resolver TypeScript 7 e falhar ao compilar o config dinâmico
+
+## Exceções documentadas
+
+Quando a **documentação oficial Expo** recomendar um pacote comunitário (não prefixado `expo-`), ele é aceitável — instalar com `bunx expo install` e documentar a necessidade de rebuild se for nativo.
+
+## Referências do projeto
+
+- Stack e padrões mobile: [`ev-hub-project`](ev-hub-project.mdc)
+- Gerenciador de pacotes: [`use-bun-instead-of-node-vite-npm-pnpm`](use-bun-instead-of-node-vite-npm-pnpm.mdc)
+- Instruções do agente: [`mobile/AGENTS.md`](../mobile/AGENTS.md)

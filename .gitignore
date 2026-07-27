@@ -17,6 +17,8 @@ expo-env.d.ts
 *.p12
 *.key
 *.mobileprovision
+/ios
+/android
 
 # Metro
 .metro-health-check*
@@ -25,19 +27,25 @@ expo-env.d.ts
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+*.log
 
 # macOS
 .DS_Store
+Thumbs.db
 *.pem
 
-# local env files
-.env*.local
+# Env (keep env.example.dist)
+.env
+.env.*
+!.env.example
+!env.example.dist
 
 # typescript
 *.tsbuildinfo
 
+# EAS / tooling
+.eas/
+.husky/_
 example
 
-# generated native folders
-/ios
-/android
+coverage/

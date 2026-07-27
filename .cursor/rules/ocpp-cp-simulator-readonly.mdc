@@ -1,0 +1,26 @@
+---
+description: Nunca alterar o repositório third-party ocpp-cp-simulator
+alwaysApply: true
+---
+
+# ocpp-cp-simulator — somente leitura (third-party)
+
+O path `ocpp-cp-simulator/` é ferramenta **upstream** (`shiv3/ocpp-cp-simulator`), **não** repositório Mega Coderz / Mega Voltz.
+
+## Proibido
+
+- Editar, criar ou apagar arquivos em `ocpp-cp-simulator/`
+- `git add` / `commit` / `push` / `reset` / rebase / amend nesse repo
+- Alterar `tsconfig`, deps, CI ou código do simulador para “corrigir” a API
+- Abrir PR no upstream sem pedido **explícito** do usuário
+
+## Permitido
+
+- **Ler** código/docs para entender OCPP
+- **Executar** o simulador localmente/CI sem modificar a working tree
+- Ajustar integração nos repos Mega Voltz (`api/`, `web/`, `mobile/`, `docs/`, `infra/`)
+
+## Se o usuário pedir alteração
+
+Recusar a edição, citar esta regra e sugerir adaptar os repos Mega Voltz — ou fork só se o usuário pedir fluxo de fork explicitamente.
+

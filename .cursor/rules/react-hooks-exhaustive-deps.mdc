@@ -1,0 +1,54 @@
+---
+description: Como tratar react-hooks/exhaustive-deps em React e React Native — quando omitir funções do array e usar eslint-disable
+globs: "**/*.{tsx,jsx}"
+alwaysApply: false
+---
+
+# react-hooks/exhaustive-deps
+
+Não “consertar” o lint adicionando funções estáveis só para calar o ESLint. Decida se a reexecução do efeito deve depender da **identidade** da função ou só dos **dados** (ids, locale, params).
+
+## Quando omitir a função do array
+
+Helpers definidos no componente (`load`, `fetchX`, `bootstrap`) que só encapsulam side effects e leem valores já listados nas deps:
+
+```tsx
+const load = () => {
+  stationsService.listConnectors(stationId, locale).then(/* … */)
+}
+
+useEffect(() => {
+  load()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [stationId, locale])
+```
+
+Incluir `load` reexecutaria o efeito a cada render (nova referência) sem ganho — preferir disable pontual.
+
+## Comentário canônico
+
+Imediatamente **acima** da linha do array de dependências:
+
+```tsx
+// eslint-disable-next-line react-hooks/exhaustive-deps
+```
+
+Opcional: motivo curto (`-- intentional mount-only`, `-- load is derived from listed deps`).
+
+Forma alternativa aceita: `/* eslint-disable-next-line react-hooks/exhaustive-deps */` na mesma posição.
+
+## Quando NÃO desabilitar
+
+- Valor/prop/state usado **dentro** do efeito e ausente do array → **adicione** a dep
+- Callback que deve acompanhar props novas → `useCallback` + deps corretas, ou incluir no array
+- Efeito de sync que precisa reagir a mudanças reais do callback
+
+## Preferências
+
+| Situação | Ação |
+| --- | --- |
+| Load on mount / on id+locale | Deps de dados + disable se `load` reclamar |
+| Callback passado a filho / focus effect | `useCallback` com deps reais |
+| Só montar uma vez | `[]` + disable com comentário `-- intentional mount-only` |
+
+Nunca `eslint-disable` de arquivo inteiro para esta regra.

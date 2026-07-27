@@ -1,0 +1,56 @@
+---
+description: >-
+  Commits feitos pela IA devem seguir Conventional Commits/commitlint. Ao
+  concluir plano em .cursor/plans/, a IA deve commitar automaticamente.
+  Dispara skill ai-commit-commitlint.
+alwaysApply: true
+---
+
+# Commits da IA → commitlint
+
+Todo **commit executado pela IA** neste repositório deve seguir **Conventional Commits** compatível com **commitlint**.
+
+## Quando commitar
+
+| Situação                                        | Commit                                                          |
+| ----------------------------------------------- | --------------------------------------------------------------- |
+| Usuário pede explicitamente                     | Sim — mensagem commitlint                                       |
+| Plano em `.cursor/plans/` com todos `completed` | **Sim — obrigatório** (após quality gates, i18n e sync de docs) |
+| Implementação parcial (todos pendentes)         | Não — salvo pedido explícito                                    |
+| Apenas análise/pergunta/review                  | Não                                                             |
+
+## Antes de encerrar plano implementado
+
+1. **Quality gates** — [`quality-gates-delivery-check`](../skills/quality-gates-delivery-check/SKILL.md) (lint, build, testes)
+2. **i18n** — [`i18n-delivery-check`](../skills/i18n-delivery-check/SKILL.md) se `api/`, `web/` ou `mobile/` foram alterados
+3. **Docs** — [`plan-docs-sync`](../skills/plan-docs-sync/SKILL.md)
+4. **Commit** — ler e seguir [`ai-commit-commitlint`](../skills/ai-commit-commitlint/SKILL.md)
+5. **Reportar** — hash, subject e arquivos incluídos
+
+## Formato (resumo)
+
+Validado por [`./commitlint.config.js`](.././commitlint.config.js) + hook [`./.husky/commit-msg`](.././.husky/commit-msg) (Husky 9).
+
+```
+<type>(<scope>): <descrição curta>
+
+[corpo opcional]
+```
+
+- **Tipos:** `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `build`, `ci`, `chore`
+- **Subject:** imperativo, minúsculo, sem ponto final, máx. 72 caracteres
+- **Scope:** módulo/pasta quando claro (`api`, `billing`, `cpo`, etc.)
+
+## Definição de pronto (DoD) — plano
+
+Entrega de plano **não está pronta** sem commit commitlint com todas as alterações da implementação (exceto `.env`, credenciais e arquivos ignorados).
+
+## Hierarquia
+
+`código` → **quality gates** → `i18n` → `docs/` → **`commit commitlint`** → reporte ao usuário
+
+## Segurança git (inegociável)
+
+- Nunca commitar `.env`, credenciais ou segredos
+- Nunca `--no-verify`, `--force`, amend indevido ou alterar `git config`
+- Push só quando o usuário pedir

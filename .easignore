@@ -1,0 +1,12 @@
+# Reduz upload para EAS Build (projeto megacpo/)
+.git
+.cursor
+**/*.md
+!README.md
+!EAS_PUBLISH.md
+example
+**/__tests__
+**/*.spec.ts
+**/*.test.ts
+coverage
+.vscode

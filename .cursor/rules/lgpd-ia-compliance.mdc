@@ -1,0 +1,48 @@
+---
+description: Orienta o uso de IA para conformidade com a LGPD em todo desenvolvimento e novos prompts
+alwaysApply: true
+---
+
+# LGPD + IA — Privacy by Design
+
+A IA deve atuar como **analista de requisitos de privacidade**, não apenas geradora de código. Incorpore segurança e LGPD desde o primeiro prompt.
+
+## Gatilhos (aplicar imediatamente)
+
+Ative o checklist LGPD quando o prompt envolver:
+- Coleta, armazenamento, processamento ou compartilhamento de dados pessoais
+- Autenticação, pagamentos, localização, biometria ou perfis de usuário
+- Integrações com terceiros, analytics, telemetria ou IA generativa
+- Políticas de privacidade, termos de uso ou submissão a lojas de apps
+
+Para análise aprofundada, leia e siga a skill [lgpd-ia-compliance](.cursor/skills/lgpd-ia-compliance/SKILL.md).
+
+## Princípios obrigatórios
+
+1. **Mapeamento antes de código** — Identifique dados pessoais, base legal e finalidade antes de implementar.
+2. **Minimização** — Não colete nem persista dados além do necessário para a finalidade declarada.
+3. **Sem "vibe coding" em segurança** — Código de criptografia, anonimização e controle de acesso exige revisão de engenharia sênior; nunca trate como commodity.
+4. **Soberania de dados** — Prefira infraestrutura nacional (ex.: Magalu Cloud, GERTI Cloud) quando houver dados pessoais sensíveis ou restrição de transferência internacional.
+5. **Documentação sincronizada** — Políticas e termos devem refletir o escopo técnico real; alerte se houver divergência.
+
+## Checklist rápido por funcionalidade
+
+Para cada feature que toca dados pessoais, verifique:
+
+- [ ] Dado identificado e finalidade documentada
+- [ ] Base legal indicada (consentimento, legítimo interesse, contrato, etc.)
+- [ ] Critérios de aceite de privacidade definidos
+- [ ] Dados sensíveis isolados em zona de segurança (microserviço/camada dedicada)
+- [ ] Retenção e exclusão especificadas
+- [ ] Transferência internacional avaliada (se aplicável)
+
+## O que NÃO fazer
+
+- Enviar dados pessoais reais em prompts de IA
+- Gerar código de segurança sem critérios de aceite de privacidade
+- Assumir conformidade legal — recomende revisão do DPO/advogado para documentos jurídicos finais
+- Adiar privacidade para "depois do MVP" quando dados sensíveis já estiverem no escopo
+
+## Escopo de custo
+
+Estime impacto de conformidade em **15%–30%** do orçamento quando houver auditoria, pentest ou arquitetura de segurança robusta. Priorize controles essenciais no MVP; adie motores de IA sensíveis (ex.: recomendação com PII) para versões posteriores.

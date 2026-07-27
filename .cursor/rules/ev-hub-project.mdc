@@ -1,0 +1,39 @@
+---
+description: Contexto Mega Partner — app Expo sócio / investidor (self-service)
+alwaysApply: true
+---
+
+# Mega Partner — Sócio / Investidor
+
+Ecossistema **Mega Coderz** / **Mega Voltz**. Este repositório é o **app Expo** de **sócios e investidores** de eletropostos (não motorista, não staff CPO, não suporte L1).
+
+Documentação canônica: [**megavoltz-docs**](https://github.com/megacoderz/megavoltz-docs). Consome a API via HTTP — sem imports do código da API/web.
+
+## Produto
+
+| Dentro                                         | Fora                                    |
+| ---------------------------------------------- | --------------------------------------- |
+| Auth magic-link (`x-partner-token`)            | App motorista, painel CPO, Mega Support |
+| Extrato de repasses (`invoice_partner_splits`) | Recarga, wallet, mapa, OCPP             |
+| Status Stripe Connect + reenvio Account Link   | Operação de postos / staff              |
+| Preferências: idioma + aparência               | —                                       |
+
+## Stack (este repo)
+
+Expo (SDK alinhado ao `package.json`), Zod, i18next, Bun (PM). Sessão do sócio em Keychain/Keystore (`expo-secure-store`). Identidade visual = Mega Voltz (`theme.ts`, assets).
+
+Preferir pacotes oficiais Expo — rule `mobile-expo-packages`; instalar com `bunx expo install`.
+
+## Regras inegociáveis
+
+1. **Auth** — magic-link + `sessionToken` em secure storage; header `x-partner-token`
+2. **Sem misturar** com app motorista (`mobile/`) nem operadores (`megasupport/`)
+3. **i18n** — i18next pt-BR + en-US + es-ES; erros da API via `Accept-Language`
+4. **Validação** — Zod antes de chamar a API
+5. **Expo first** — módulos `expo-*` antes de terceiros
+6. **Bun** — `bun.lock` versionado
+7. **LGPD** — skill `lgpd-ia-compliance` ao tocar PII (e-mail do sócio); sem PII de motorista nas listagens
+8. **Aparência** — preferência local Sistema / Claro / Escuro (AsyncStorage)
+9. **Performance** — FlatList para extrato; services para HTTP
+
+Quality gates: `bun run verify` (lint → typecheck → test:cov). Release: `bun run verify:release` (+ i18n + expo-doctor).

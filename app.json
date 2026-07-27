@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "megacpo",
+    "name": "Mega Partner",
     "slug": "megacpo",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,9 +8,11 @@
     "scheme": "megacpo",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "icon": "./assets/expo.icon"
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "br.com.megacoderz.megacpo.app"
     },
     "android": {
+      "package": "br.com.megacoderz.megacpo.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -25,10 +27,12 @@
     },
     "plugins": [
       "expo-router",
+      "expo-secure-store",
+      "expo-localization",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#0284c7",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }

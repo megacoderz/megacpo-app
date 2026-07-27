@@ -1,0 +1,30 @@
+---
+description: >-
+  Ao realizar code review solicitado pelo usuário, salvar relatório em
+  .cursor/codereview/AAAAMMDDHHmmSS.md e git add. Dispara skill code-review-save.
+alwaysApply: true
+---
+
+# Code review → salvar em `.cursor/codereview/`
+
+Sempre que o usuário pedir **code review**, **revisão de código**, **review de PR/diff** ou análise equivalente:
+
+1. **Ler a skill** [`.cursor/skills/code-review-save/SKILL.md`](../skills/code-review-save/SKILL.md) e seguir o fluxo.
+2. **Salvar** o relatório completo em `.cursor/codereview/<AAAAMMDDHHmmSS>.md`.
+3. **Timestamp** via `date +%Y%m%d%H%M%S` no momento da criação (ex.: `20260602183443.md`).
+4. **git add** do arquivo na mesma sessão.
+5. **Reportar** no chat o path do arquivo + veredicto resumido.
+
+## Nome do arquivo
+
+`AAAAMMDDHHmmSS.md` — ano + mês + dia + hora + minuto + segundo (24h).
+
+Colisão no mesmo segundo: sufixo `-2`, `-3`, etc.
+
+## Commit
+
+Não commitar automaticamente — salvo pedido explícito do usuário.
+
+## Exceção
+
+Perguntas pontuais sobre uma linha ou trecho **sem** pedido de review estruturado — não exige arquivo.

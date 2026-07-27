@@ -1,0 +1,21 @@
+---
+description: >-
+  Executa lint, typecheck e testes antes de encerrar implementação. Obrigatório
+  antes de sync de docs ou commit.
+alwaysApply: true
+---
+
+# Quality gates — Mobile
+
+Entrega **não está pronta** enquanto algum gate falhar.
+
+```bash
+bun run verify
+# equivalente: lint → typecheck → test
+```
+
+- [ ] Lint passou
+- [ ] Typecheck passou
+- [ ] Testes unitários passaram
+
+Ordem: código → **quality gates** → i18n → docs (repo docs) → commit commitlint

@@ -1,0 +1,37 @@
+---
+description: >-
+  Ao implementar planos em .cursor/plans/, sincronizar docs/ com decisões e
+  entregas. Dispara skill plan-docs-sync.
+alwaysApply: true
+---
+
+# Planos implementados → docs canônicas
+
+Sempre que **implementar**, **concluir todos** ou **encerrar feature** derivada de um plano em [`.cursor/plans/`](https://github.com/megacoderz/megavoltz-docs/blob/main/.cursor/plans/):
+
+1. **Quality gates:** aplicar [`quality-gates-delivery-check`](../skills/quality-gates-delivery-check/SKILL.md) — lint, build e testes devem passar **antes** de sync de docs.
+2. **Ler a skill** [`.cursor/skills/plan-docs-sync/SKILL.md`](../skills/plan-docs-sync/SKILL.md) e seguir o fluxo completo.
+3. **Comparar** decisões/escopo do plano (todos `completed`) com [`docs/`](https://github.com/megacoderz/megavoltz-docs/blob/main/README.md).
+4. **Atualizar** as docs afetadas — plano + código prevalecem sobre texto desatificado.
+5. **Registrar decisões** nas docs corretas (ver [doc-map.md](../skills/plan-docs-sync/doc-map.md)); evitar duplicar em vários arquivos.
+6. **LGPD:** se houver PII, pagamento ou terceiros novos, aplicar também [`lgpd-ia-compliance`](../skills/lgpd-ia-compliance/SKILL.md).
+7. **i18n:** se o escopo tocou `api/`, `web/` ou `mobile/`, aplicar [`i18n-delivery-check`](../skills/i18n-delivery-check/SKILL.md).
+8. **Commit:** se todos do plano estiverem `completed`, aplicar [`ai-commit-commitlint`](../skills/ai-commit-commitlint/SKILL.md).
+9. **Reportar** resumo do sync (e commit, se houver) ao usuário antes de dar a tarefa por encerrada.
+
+## Definição de pronto (DoD)
+
+Entrega baseada em plano **não está pronta** sem:
+
+- [ ] Quality gates passaram (lint, build, testes) — ver [`quality-gates-delivery-check`](../skills/quality-gates-delivery-check/SKILL.md)
+- [ ] Docs do domínio revisadas e alinhadas ao implementado
+- [ ] `docs/README.md` atualizado se decisão MVP ou pendência mudou
+- [ ] i18n verificado (erros API + chaves pt-BR/en-US) se camadas de app foram alteradas
+- [ ] Escopo **fora do plano** permanece em backlog (não documentar como entregue)
+- [ ] Commit commitlint com alterações da implementação (ver [`ai-commit-commitlint`](../skills/ai-commit-commitlint/SKILL.md))
+
+## Hierarquia
+
+`código implementado` → **quality gates** → i18n → `docs/` (após sync) → `commit commitlint` → `CLAUDE.md`
+
+Não encerrar implementação de plano sem executar este sync e o commit.
