@@ -2,7 +2,7 @@
 
 App Expo para **sócios e investidores** de eletropostos (extrato de repasses, Stripe Connect e preferências).
 
-Não é o app do motorista (`mobile/`) nem o Mega Support (`megasupport/`).
+Não é o app do motorista (`mobile/`) nem o Mega Support (`megapartner/`).
 
 Documentação canônica: [**megavoltz-docs**](https://github.com/megacoderz/megavoltz-docs) · Split N-way: [`site-partner-splits.md`](https://github.com/megacoderz/megavoltz-docs/blob/main/technical/site-partner-splits.md)
 
