@@ -10,6 +10,7 @@ import { AppearanceProvider } from '@/hooks/appearance-provider'
 import { useAppColorScheme } from '@/hooks/use-app-color-scheme'
 import { PartnerAuthGate, PartnerAuthProvider } from '@/hooks/use-partner-auth'
 import { useTheme } from '@/hooks/use-theme'
+import { initSentry } from '@/infrastructure/sentry/sentry'
 import { buildNavigationTheme } from '@/theme/navigation-theme'
 
 const SystemUiSync = () => {
@@ -48,6 +49,7 @@ export default function RootLayout() {
   const [isLocaleReady, setIsLocaleReady] = useState(false)
 
   useEffect(() => {
+    initSentry()
     void hydrateAppLocale().finally(() => setIsLocaleReady(true))
   }, [])
 
