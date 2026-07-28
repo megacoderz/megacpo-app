@@ -4,6 +4,7 @@ type ExpoExtra = {
   apiUrl?: string
   appDisplayName?: string
   primaryColor?: string
+  appEnv?: string
 }
 
 const extra = (Constants.expoConfig?.extra ??
@@ -29,6 +30,7 @@ const resolveApiUrl = (): string => {
 }
 
 export const env = {
+  appEnv: process.env.APP_ENV ?? extra.appEnv ?? 'development',
   apiUrl: resolveApiUrl(),
   appDisplayName:
     process.env.EXPO_PUBLIC_APP_DISPLAY_NAME ??
@@ -36,4 +38,10 @@ export const env = {
     'Mega Partner',
   primaryColor:
     process.env.EXPO_PUBLIC_PRIMARY_COLOR ?? extra.primaryColor ?? '#0284c7',
+  sentryEnabled:
+    process.env.EXPO_PUBLIC_SENTRY_ENABLED === 'true' ||
+    process.env.EXPO_PUBLIC_SENTRY_ENABLED === '1',
+  sentryDsn: process.env.EXPO_PUBLIC_SENTRY_DSN ?? '',
+  sentryEnvironment:
+    process.env.EXPO_PUBLIC_SENTRY_ENVIRONMENT ?? 'development',
 } as const

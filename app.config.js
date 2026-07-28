@@ -40,6 +40,7 @@ const buildPlugins = () => {
     ...(appJson.expo.plugins ?? []),
     'expo-localization',
     'expo-secure-store',
+    '@sentry/react-native',
   ]
 }
 
@@ -71,5 +72,6 @@ module.exports = ({ config }) => ({
       projectId: EAS_PROJECT_ID,
     },
     primaryColor,
+    appEnv: process.env.APP_ENV ?? 'development',
   },
 })
