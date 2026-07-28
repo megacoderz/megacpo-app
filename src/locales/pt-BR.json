@@ -3,6 +3,7 @@
     "error": "Algo deu errado",
     "loading": "Carregando…",
     "cancel": "Cancelar",
+    "save": "Salvar",
     "retry": "Tentar novamente",
     "back": "Voltar",
     "apiCommunicationError": "Falha de comunicação com o servidor",
@@ -83,10 +84,28 @@
   "profile": {
     "title": "Perfil",
     "email": "E-mail",
+    "name": "Nome",
     "tenant": "Rede",
     "language": "Idioma",
     "appearance": "Aparência",
     "selected": "Atual",
+    "profileUpdated": "Perfil atualizado",
+    "validation": {
+      "name": "Informe um nome válido"
+    },
+    "avatar": {
+      "change": "Alterar foto",
+      "remove": "Remover foto",
+      "removeConfirmTitle": "Remover foto de perfil?",
+      "removeConfirmMessage": "Você poderá adicionar uma nova foto quando quiser.",
+      "faceNotFound": "Não encontramos um rosto na imagem. Envie uma foto frontal mais nítida.",
+      "fileRequired": "Selecione uma imagem para continuar",
+      "invalidType": "Formato de imagem não suportado",
+      "tooLarge": "A imagem é muito grande",
+      "uploadError": "Não foi possível atualizar a foto",
+      "removeError": "Não foi possível remover a foto",
+      "permissionDenied": "Permissão de acesso às fotos negada"
+    },
     "menu": {
       "appearance": {
         "title": "Aparência",

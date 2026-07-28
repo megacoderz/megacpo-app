@@ -3,6 +3,7 @@
     "error": "Algo salió mal",
     "loading": "Cargando…",
     "cancel": "Cancelar",
+    "save": "Guardar",
     "retry": "Intentar de nuevo",
     "back": "Volver",
     "apiCommunicationError": "Error de comunicación con el servidor",
@@ -83,10 +84,28 @@
   "profile": {
     "title": "Perfil",
     "email": "Correo electrónico",
+    "name": "Nombre",
     "tenant": "Red",
     "language": "Idioma",
     "appearance": "Apariencia",
     "selected": "Actual",
+    "profileUpdated": "Perfil actualizado",
+    "validation": {
+      "name": "Introduce un nombre válido"
+    },
+    "avatar": {
+      "change": "Cambiar foto",
+      "remove": "Quitar foto",
+      "removeConfirmTitle": "¿Quitar foto de perfil?",
+      "removeConfirmMessage": "Podrás añadir una nueva foto cuando quieras.",
+      "faceNotFound": "No encontramos un rostro en la imagen. Sube una foto frontal más nítida.",
+      "fileRequired": "Selecciona una imagen para continuar",
+      "invalidType": "Formato de imagen no admitido",
+      "tooLarge": "La imagen es demasiado grande",
+      "uploadError": "No se pudo actualizar la foto",
+      "removeError": "No se pudo quitar la foto",
+      "permissionDenied": "Permiso de acceso a fotos denegado"
+    },
     "menu": {
       "appearance": {
         "title": "Apariencia",

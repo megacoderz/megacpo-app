@@ -6,6 +6,7 @@ import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
 import { Button, Card, Screen } from '@/components/ui'
+import { ProfileAvatar } from '@/components/profile/ProfileAvatar'
 import { Spacing } from '@/constants/theme'
 import { usePartnerAuth } from '@/hooks/use-partner-auth'
 import { useTheme } from '@/hooks/use-theme'
@@ -14,6 +15,7 @@ import {
   type PartnerConnectStatus,
 } from '@/services/partner.service'
 import { getApiErrorMessage } from '@/utils/api-error-message'
+import { getNameInitials } from '@/utils/name-initials'
 
 const CONNECT_STATUS_KEY: Record<string, string> = {
   connected: 'home.connect.connected',
@@ -95,13 +97,25 @@ export default function HomeScreen() {
       </Text>
 
       <Card>
-        <View>
-          <Text style={[styles.label, { color: theme.textSecondary }]}>
-            {t('home.email')}
-          </Text>
-          <Text style={[styles.value, { color: theme.text }]}>
-            {partner?.email ?? '-'}
-          </Text>
+        <View style={styles.identity}>
+          <ProfileAvatar
+            avatarUrl={partner?.avatarUrl}
+            initials={getNameInitials(partner?.name || partner?.email)}
+            size="md"
+          />
+          <View style={styles.identityText}>
+            {partner?.name ? (
+              <Text style={[styles.value, { color: theme.text }]}>
+                {partner.name}
+              </Text>
+            ) : null}
+            <Text style={[styles.label, { color: theme.textSecondary }]}>
+              {t('home.email')}
+            </Text>
+            <Text style={[styles.value, { color: theme.text }]}>
+              {partner?.email ?? '-'}
+            </Text>
+          </View>
         </View>
 
         <View>
@@ -159,6 +173,15 @@ const styles = StyleSheet.create({
   },
   error: {
     fontSize: 13,
+  },
+  identity: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: Spacing.two,
+  },
+  identityText: {
+    flex: 1,
+    gap: Spacing.half,
   },
   label: {
     fontSize: 12,

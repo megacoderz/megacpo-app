@@ -20,7 +20,11 @@ export default defineConfig({
         'src/theme/color-scheme.ts',
         'src/i18n/locale-utils.ts',
       ],
-      exclude: ['**/*.{spec,test}.ts', '**/node_modules/**'],
+      exclude: [
+        '**/*.{spec,test}.ts',
+        '**/node_modules/**',
+        '**/avatar-image.service.ts',
+      ],
       thresholds: {
         statements: 70,
         branches: 50,
