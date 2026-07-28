@@ -27,7 +27,7 @@ Preferir pacotes oficiais Expo — rule `mobile-expo-packages`; instalar com `bu
 ## Regras inegociáveis
 
 1. **Auth** — magic-link + `sessionToken` em secure storage; header `x-partner-token`
-2. **Sem misturar** com app motorista (`mobile/`) nem operadores (`megasupport/`)
+2. **Sem misturar** com app motorista (`mobile/`) nem operadores (`megapartner/`)
 3. **i18n** — i18next pt-BR + en-US + es-ES; erros da API via `Accept-Language`
 4. **Validação** — Zod antes de chamar a API
 5. **Expo first** — módulos `expo-*` antes de terceiros
