@@ -11,4 +11,4 @@ Read the exact versioned docs at https://docs.expo.dev/versions/v57.0.0/ before 
 
 ## Produto
 
-App **Mega Partner** (`megacpo/`): sócio / investidor — extrato, Connect, aparência. **Não** é o app motorista nem o Mega Support.
+App **Mega Partner** (`megapartner/`): sócio / investidor — extrato, Connect, aparência. **Não** é o app motorista (`megavoltz/`) nem o Mega Support (`megasupport/`).
