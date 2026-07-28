@@ -1,8 +1,10 @@
 import { router } from 'expo-router'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { useState } from 'react'
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 
-import { Button, Card, Screen } from '@/components/ui'
+import { AvatarPicker } from '@/components/profile/AvatarPicker'
+import { Button, Card, Input, Screen } from '@/components/ui'
 import { Spacing } from '@/constants/theme'
 import { usePartnerAuth } from '@/hooks/use-partner-auth'
 import { useTheme } from '@/hooks/use-theme'
@@ -11,14 +13,104 @@ import {
   SUPPORTED_LOCALES,
   type SupportedLocale,
 } from '@/i18n'
+import { pickAndCropAvatar } from '@/services/avatar-image.service'
+import { partnerService } from '@/services/partner.service'
+import { getApiErrorMessage } from '@/utils/api-error-message'
+import { getNameInitials } from '@/utils/name-initials'
 
 export default function ProfileScreen() {
   const { i18n, t } = useTranslation()
   const theme = useTheme()
-  const { logout, partner } = usePartnerAuth()
+  const { logout, partner, refreshMe } = usePartnerAuth()
+  const [name, setName] = useState(partner?.name ?? '')
+  const [avatarUrl, setAvatarUrl] = useState(partner?.avatarUrl ?? null)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
+  const [isRemoving, setIsRemoving] = useState(false)
+
+  const resolvedAvatarUrl = avatarUrl ?? partner?.avatarUrl ?? null
+  const resolvedName = name || partner?.name || ''
 
   const handleLogout = () => {
     void logout().then(() => router.replace('/login'))
+  }
+
+  const handleSaveName = async () => {
+    const trimmed = name.trim()
+    if (trimmed.length < 2) {
+      setError(t('profile.validation.name'))
+      return
+    }
+
+    setIsSubmitting(true)
+    setError('')
+    setSuccess('')
+
+    try {
+      await partnerService.updateMe({ name: trimmed })
+      await refreshMe()
+      setSuccess(t('profile.profileUpdated'))
+    } catch (saveError) {
+      setError(getApiErrorMessage(saveError, t))
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handlePick = async () => {
+    setError('')
+    const file = await pickAndCropAvatar()
+    if (!file) {
+      return
+    }
+
+    setIsUploading(true)
+    try {
+      const result = await partnerService.uploadAvatar(file)
+      setAvatarUrl(result.avatarUrl)
+      await refreshMe()
+    } catch (uploadError) {
+      setError(getApiErrorMessage(uploadError, t, 'profile.avatar.uploadError'))
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  const handleRemove = () => {
+    Alert.alert(
+      t('profile.avatar.removeConfirmTitle'),
+      t('profile.avatar.removeConfirmMessage'),
+      [
+        { style: 'cancel', text: t('common.cancel') },
+        {
+          style: 'destructive',
+          text: t('profile.avatar.remove'),
+          onPress: () => {
+            void (async () => {
+              setError('')
+              setIsRemoving(true)
+              try {
+                await partnerService.deleteAvatar()
+                setAvatarUrl(null)
+                await refreshMe()
+              } catch (deleteError) {
+                setError(
+                  getApiErrorMessage(
+                    deleteError,
+                    t,
+                    'profile.avatar.removeError',
+                  ),
+                )
+              } finally {
+                setIsRemoving(false)
+              }
+            })()
+          },
+        },
+      ],
+    )
   }
 
   return (
@@ -28,6 +120,17 @@ export default function ProfileScreen() {
       </Text>
 
       <Card>
+        <AvatarPicker
+          avatarUrl={resolvedAvatarUrl}
+          changeLabel={t('profile.avatar.change')}
+          initials={getNameInitials(resolvedName || partner?.email)}
+          isRemoving={isRemoving}
+          isUploading={isUploading}
+          onPick={() => void handlePick()}
+          onRemove={handleRemove}
+          removeLabel={t('profile.avatar.remove')}
+        />
+
         <View>
           <Text style={[styles.label, { color: theme.textSecondary }]}>
             {t('profile.email')}
@@ -36,6 +139,15 @@ export default function ProfileScreen() {
             {partner?.email ?? '-'}
           </Text>
         </View>
+
+        <Input label={t('profile.name')} onChangeText={setName} value={name} />
+        {error ? <Text style={{ color: theme.danger }}>{error}</Text> : null}
+        {success ? (
+          <Text style={{ color: theme.success }}>{success}</Text>
+        ) : null}
+        <Button loading={isSubmitting} onPress={() => void handleSaveName()}>
+          {t('common.save')}
+        </Button>
       </Card>
 
       <Card>

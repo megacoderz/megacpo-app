@@ -12,9 +12,11 @@ export type PartnerMe = {
   id: string
   tenantId: string
   email: string
+  name?: string | null
   kind: PartnerKind
   status: PartnerStatus
   stripeStatus: PartnerStripeStatus
+  avatarUrl?: string | null
 }
 
 export type VerifyPartnerMagicLinkResponse = {
@@ -83,6 +85,26 @@ export const partnerService = {
     }),
 
   getMe: (): Promise<PartnerMe> => apiRequest<PartnerMe>('/v1/partner/me'),
+
+  updateMe: (body: { name?: string }): Promise<PartnerMe> =>
+    apiRequest<PartnerMe>('/v1/partner/me', {
+      body,
+      method: 'PATCH',
+    }),
+
+  uploadAvatar: (file: { name: string; type: string; uri: string }) => {
+    const formData = new FormData()
+    formData.append('avatar', file as unknown as Blob)
+    return apiRequest<{ avatarUrl: string }>('/v1/partner/me/avatar', {
+      body: formData,
+      method: 'POST',
+    })
+  },
+
+  deleteAvatar: () =>
+    apiRequest<void>('/v1/partner/me/avatar', {
+      method: 'DELETE',
+    }),
 
   getEarnings: (params?: ListPartnerEarningsParams): Promise<PartnerEarnings> =>
     apiRequest<PartnerEarnings>('/v1/partner/earnings', {

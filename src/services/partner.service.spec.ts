@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('@/services/api-client', () => ({
   apiRequest: vi.fn(async () => undefined),
@@ -34,6 +34,10 @@ import { partnerService } from '@/services/partner.service'
 const apiRequestMock = vi.mocked(apiRequest)
 
 describe('partnerService', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('requests a magic link without auth', async () => {
     await partnerService.requestMagicLink('partner@example.com')
 
@@ -106,5 +110,36 @@ describe('partnerService', () => {
         method: 'POST',
       },
     )
+  })
+
+  it('updates partner display name', async () => {
+    await partnerService.updateMe({ name: 'Sócio Teste' })
+
+    expect(apiRequestMock).toHaveBeenCalledWith('/v1/partner/me', {
+      body: { name: 'Sócio Teste' },
+      method: 'PATCH',
+    })
+  })
+
+  it('uploads avatar as multipart form data', async () => {
+    await partnerService.uploadAvatar({
+      name: 'avatar.jpg',
+      type: 'image/jpeg',
+      uri: 'file:///tmp/avatar.jpg',
+    })
+
+    expect(apiRequestMock).toHaveBeenCalledTimes(1)
+    const [path, options] = apiRequestMock.mock.calls[0] ?? []
+    expect(path).toBe('/v1/partner/me/avatar')
+    expect(options?.method).toBe('POST')
+    expect(options?.body).toBeInstanceOf(FormData)
+  })
+
+  it('deletes the current avatar', async () => {
+    await partnerService.deleteAvatar()
+
+    expect(apiRequestMock).toHaveBeenCalledWith('/v1/partner/me/avatar', {
+      method: 'DELETE',
+    })
   })
 })

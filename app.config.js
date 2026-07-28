@@ -38,6 +38,7 @@ const buildPlugins = () => {
   // (autolinking + KeyboardProvider). Não listar em `plugins`.
   return [
     ...(appJson.expo.plugins ?? []),
+    'expo-image',
     'expo-localization',
     'expo-secure-store',
     '@sentry/react-native',
