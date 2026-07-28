@@ -4,6 +4,10 @@ name: Release
 on:
   push:
     branches: [main]
+    # Commit chore(release) só altera package.json/app.json — sem paths-ignore, PAT re-dispara Release (eco).
+    paths-ignore:
+      - 'package.json'
+      - 'app.json'
 
 concurrency:
   group: release-megacpo
