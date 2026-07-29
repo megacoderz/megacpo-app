@@ -20,7 +20,7 @@
     "requiredLogin": "Access for Mega Voltz station partners and investors",
     "email": "Email",
     "sendLink": "Send access link",
-    "linkSent": "If the email exists, we sent an access link.",
+    "linkSent": "We sent an access link to your email.",
     "haveTokenTitle": "Already have a link or code?",
     "haveTokenSubtitle": "Paste the code you received by email to sign in",
     "tokenLabel": "Verification code",
