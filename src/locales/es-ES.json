@@ -20,7 +20,7 @@
     "requiredLogin": "Acceso para socios e inversionistas de electropostos Mega Voltz",
     "email": "Correo electrónico",
     "sendLink": "Enviar enlace de acceso",
-    "linkSent": "Si el correo existe, enviamos un enlace de acceso.",
+    "linkSent": "Enviamos un enlace de acceso a tu correo.",
     "haveTokenTitle": "¿Ya tienes un enlace o código?",
     "haveTokenSubtitle": "Pega el código recibido por correo para ingresar",
     "tokenLabel": "Código de verificación",
