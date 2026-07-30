@@ -24,9 +24,9 @@ if (missing.length > 0) {
     console.error(`  - ${key}`)
   }
   console.error(
-    '\nConfigure em https://expo.dev → projeto megacpo → Environment variables\n' +
+    '\nConfigure em https://expo.dev → projeto megapartner → Environment variables\n' +
       'Ou exporte localmente antes do build (não commitar secrets).\n' +
-      'Ver megacpo/EAS_PUBLISH.md\n',
+      'Ver megapartner/EAS_PUBLISH.md\n',
   )
   process.exit(1)
 }

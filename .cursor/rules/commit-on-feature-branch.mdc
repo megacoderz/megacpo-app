@@ -8,7 +8,7 @@ alwaysApply: true
 
 # Commits → branch nova (nunca em `main`)
 
-Em `megacpo/`, commits e push **não** vão direto para `main` — só via feature branch + PR (política Mega Voltz).
+Em `megapartner/`, commits e push **não** vão direto para `main` — só via feature branch + PR (política Mega Voltz).
 
 ## Inegociável
 

@@ -10,7 +10,7 @@ on:
       - 'app.json'
 
 concurrency:
-  group: release-megacpo
+  group: release-megapartner
   cancel-in-progress: false
 
 permissions:

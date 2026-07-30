@@ -38,6 +38,11 @@
       "token": "Ingresa el código recibido por correo"
     }
   },
+  "forceUpgrade": {
+    "title": "Actualiza Mega Partner",
+    "body": "Esta versión fue descontinuada. Instala la nueva app Mega Partner en la tienda y solicita un nuevo enlace de acceso por correo.",
+    "cta": "Abrir tienda"
+  },
   "home": {
     "title": "Inicio",
     "email": "Correo electrónico",

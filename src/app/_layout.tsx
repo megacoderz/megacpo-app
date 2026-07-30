@@ -6,6 +6,10 @@ import * as SystemUI from 'expo-system-ui'
 import { StatusBar } from 'expo-status-bar'
 
 import i18n, { hydrateAppLocale } from '@/i18n'
+import {
+  ForceUpgradeScreen,
+  isForceUpgradeEnabled,
+} from '@/components/force-upgrade-screen'
 import { AppearanceProvider } from '@/hooks/appearance-provider'
 import { useAppColorScheme } from '@/hooks/use-app-color-scheme'
 import { PartnerAuthGate, PartnerAuthProvider } from '@/hooks/use-partner-auth'
@@ -29,6 +33,16 @@ const RootProviders = () => {
     () => buildNavigationTheme(colorScheme),
     [colorScheme],
   )
+
+  if (isForceUpgradeEnabled()) {
+    return (
+      <NavigationThemeProvider value={navigationTheme}>
+        <SystemUiSync />
+        <ForceUpgradeScreen />
+        <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+      </NavigationThemeProvider>
+    )
+  }
 
   return (
     <NavigationThemeProvider value={navigationTheme}>

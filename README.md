@@ -4,7 +4,7 @@ App Expo para **sócios e investidores** de eletropostos (extrato de repasses, S
 
 Não é o app do motorista (`megavoltz/`) nem o Mega Support (`megasupport/`).
 
-> Pasta local / remote: `megapartner/` · `package.json` name / slug Expo legado: `megacpo`.
+> Pasta local / remote: `megapartner/` · npm name / Expo slug / scheme: `megapartner` · bundle: `br.com.megacoderz.megapartner.app`
 
 Documentação canônica: [**megavoltz-docs**](https://github.com/megacoderz/megavoltz-docs) · Split N-way: [`site-partner-splits.md`](https://github.com/megacoderz/megavoltz-docs/blob/main/technical/site-partner-splits.md)
 
@@ -38,7 +38,7 @@ Variáveis principais em `env.example.dist`:
 
 Em **device físico**, use o IP LAN da máquina (não `localhost`).
 
-Device iOS com **Personal Team** (Apple ID gratuito): descomente no `.env` o bloco `EXPO_IOS_PERSONAL_TEAM` em `env.example.dist` (`EXPO_IOS_BUNDLE_IDENTIFIER=br.com.megacoderz.megacpo.app`), depois `bun run prebuild:clean && bun run ios -- --device`.
+Device iOS com **Personal Team** (Apple ID gratuito): descomente no `.env` o bloco `EXPO_IOS_PERSONAL_TEAM` em `env.example.dist` (`EXPO_IOS_BUNDLE_IDENTIFIER=br.com.megacoderz.megapartner.app`), depois `bun run prebuild:clean && bun run ios -- --device`.
 
 ## Desenvolvimento
 
@@ -66,13 +66,19 @@ bun run verify:release  # verify + i18n + expo-doctor
 ## Estrutura
 
 ```
-src/app/(auth)/login|verify
+src/app/(auth)/login|verify|entrar
 src/app/(app)/(tabs)/index|earnings|profile
 src/app/(app)/appearance
 src/services/          # api-client, partner, session/locale/appearance storage
 src/locales/           # pt-BR, en-US, es-ES
 src/schemas/           # Zod (auth magic-link)
 ```
+
+## Deep links
+
+- Scheme: `megapartner://`
+- Universal / App Links: `https://partner.megavoltz.com.br/entrar` (HMG: `hmg-partner.…`) → rota `(auth)/entrar` (= verify)
+- Connect return URLs usam o mesmo scheme; allowlist API aceita `megapartner:` (+ legado `megacpo:` na janela de migração — ver `EAS_PUBLISH.md`)
 
 ## Auth e API
 
