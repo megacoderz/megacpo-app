@@ -1,6 +1,7 @@
 # Automated dependency updates — Bun lockfile + GitHub Actions.
-# Majors ride in the same weekly group PR. TypeScript major ignored: Expo /
-# EAS break on TypeScript 7+ until upstream supports it.
+#
+# Policy: weekly group = minor/patch only. All semver majors ignored (incl.
+# TypeScript 7+ / Expo breakage). Majors are upgraded manually when CI is ready.
 version: 2
 updates:
   - package-ecosystem: 'bun'
@@ -9,13 +10,16 @@ updates:
       interval: 'weekly'
     open-pull-requests-limit: 10
     ignore:
-      - dependency-name: 'typescript'
+      - dependency-name: '*'
         update-types:
           - 'version-update:semver-major'
     groups:
       js-dependencies:
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
