@@ -1,7 +1,9 @@
-# Automated dependency updates — Bun lockfile + GitHub Actions.
+# Dependabot — only minor + patch for Node/Bun packages.
 #
-# Policy: weekly group = minor/patch only. All semver majors ignored (incl.
-# TypeScript 7+ / Expo breakage). Majors are upgraded manually when CI is ready.
+# Allowed:  5.9.4 → 5.9.5 (patch),  6.4.7 → 6.5.8 (minor)
+# Blocked:  5.9.4 → 6.0.1 (major), TypeScript 5 → 6/7, etc.
+#
+# Majors must be upgraded manually after Quality is green.
 version: 2
 updates:
   - package-ecosystem: 'bun'
@@ -25,7 +27,14 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+    ignore:
+      - dependency-name: '*'
+        update-types:
+          - 'version-update:semver-major'
     groups:
       github-actions:
         patterns:
           - '*'
+        update-types:
+          - 'minor'
+          - 'patch'
