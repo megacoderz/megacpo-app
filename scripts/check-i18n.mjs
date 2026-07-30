@@ -167,7 +167,7 @@ const main = () => {
     return true
   })
 
-  console.log('i18n check (megacpo / i18next)')
+  console.log('i18n check (megapartner / i18next)')
   console.log(`  locales: ${LOCALES.join(', ')}`)
   console.log(`  leaf keys (pt-BR): ${allLeaves.size}`)
   console.log(`  source files scanned: ${files.length}`)

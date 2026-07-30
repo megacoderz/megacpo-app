@@ -1,7 +1,7 @@
 ---
 name: commit-on-feature-branch
 description: >-
-  Garante que commits da IA em megacpo/ ocorram em branch nova a partir de
+  Garante que commits da IA em megapartner/ ocorram em branch nova a partir de
   main, nunca direto em main. Ao pedir push, faz push e em seguida cria o PR
   com gh. Use ao pedir commit, push, PR, ao encerrar plano, ou junto com
   ai-commit-commitlint.
@@ -9,7 +9,7 @@ description: >-
 
 # Commit em feature branch (nunca em `main`)
 
-Em `megacpo/`, a política Mega Voltz é a mesma de `api/`/`web/`: **nunca** commit/push direto em `main` — só via feature branch + PR.
+Em `megapartner/`, a política Mega Voltz é a mesma de `api/`/`web/`: **nunca** commit/push direto em `main` — só via feature branch + PR.
 
 **Princípio:** commit → branch off `main` → (se pedir push) `git push` **e em seguida** `gh pr create`.
 

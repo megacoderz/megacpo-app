@@ -5,7 +5,7 @@ import {
   type AppearancePreference,
 } from '@/theme/color-scheme'
 
-const APPEARANCE_STORAGE_KEY = '@megacpo/appearance'
+const APPEARANCE_STORAGE_KEY = '@megapartner/appearance'
 
 const isAppearancePreference = (
   value: string | null,
