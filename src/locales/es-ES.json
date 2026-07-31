@@ -127,5 +127,12 @@
       "en-US": "English (US)",
       "es-ES": "Español"
     }
+  },
+  "help": {
+    "hubTitle": "Ayuda",
+    "hubSubtitle": "Pagos, Connect y extracto",
+    "disclaimer": "Contenido educativo. El contrato y la configuración prevalecen sobre los ejemplos.",
+    "faqTitle": "Preguntas frecuentes",
+    "notFound": "Artículo no encontrado"
   }
 }
