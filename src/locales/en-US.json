@@ -127,5 +127,12 @@
       "en-US": "English (US)",
       "es-ES": "Español"
     }
+  },
+  "help": {
+    "hubTitle": "Help",
+    "hubSubtitle": "Payouts, Connect and statement",
+    "disclaimer": "Educational content. Contract and configuration prevail over examples.",
+    "faqTitle": "FAQ",
+    "notFound": "Article not found"
   }
 }

@@ -11,6 +11,8 @@ export default function AppLayout() {
           presentation: 'card',
         }}
       />
+      <Stack.Screen name="help/index" />
+      <Stack.Screen name="help/[slug]" />
     </Stack>
   )
 }

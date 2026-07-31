@@ -1,4 +1,4 @@
-import { router } from 'expo-router'
+import { router, type Href } from 'expo-router'
 import { useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
@@ -177,6 +177,24 @@ export default function ProfileScreen() {
             </Text>
             <Text style={{ color: theme.textSecondary }}>
               {t('profile.menu.appearance.subtitle')}
+            </Text>
+          </View>
+          <Text style={{ color: theme.primary, fontWeight: '700' }}>›</Text>
+        </Pressable>
+      </Card>
+
+      <Card>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push('/help' as Href)}
+          style={styles.menuRow}
+        >
+          <View>
+            <Text style={[styles.sectionTitle, { color: theme.text }]}>
+              {t('help.hubTitle')}
+            </Text>
+            <Text style={{ color: theme.textSecondary }}>
+              {t('help.hubSubtitle')}
             </Text>
           </View>
           <Text style={{ color: theme.primary, fontWeight: '700' }}>›</Text>

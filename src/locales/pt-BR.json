@@ -127,5 +127,12 @@
       "en-US": "English (US)",
       "es-ES": "Español"
     }
+  },
+  "help": {
+    "hubTitle": "Ajuda",
+    "hubSubtitle": "Repasses, Connect e extrato",
+    "disclaimer": "Conteúdo educativo. Contrato e configuração prevalecem sobre os exemplos.",
+    "faqTitle": "Perguntas frequentes",
+    "notFound": "Artigo não encontrado"
   }
 }
