@@ -10,7 +10,7 @@ const STORE_URL_ANDROID =
   process.env.EXPO_PUBLIC_STORE_URL_ANDROID?.trim() ?? ''
 
 /**
- * Last-release gate for the legacy …megacpo.app listing.
+ * Last-release gate for the legacy …megapartner.app listing.
  * Enable with EXPO_PUBLIC_FORCE_UPGRADE=1 on the sunset build only.
  */
 export const isForceUpgradeEnabled = () =>

@@ -78,7 +78,7 @@ src/schemas/           # Zod (auth magic-link)
 
 - Scheme: `megapartner://`
 - Universal / App Links: `https://partner.megavoltz.com.br/entrar` (HMG: `hmg-partner.…`) → rota `(auth)/entrar` (= verify)
-- Connect return URLs usam o mesmo scheme; allowlist API aceita `megapartner:` (+ legado `megacpo:` na janela de migração — ver `EAS_PUBLISH.md`)
+- Connect return URLs usam o mesmo scheme; allowlist API aceita `megapartner:` (+ legado `megapartner:` na janela de migração — ver `EAS_PUBLISH.md`)
 
 ## Auth e API
 
