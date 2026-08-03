@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Image } from 'expo-image'
 import { router } from 'expo-router'
 import { StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
@@ -57,6 +58,14 @@ export default function LoginScreen() {
   return (
     <Screen style={styles.content}>
       <View style={styles.header}>
+        <View style={styles.brandContainer}>
+          <Image
+            accessibilityLabel={env.appDisplayName}
+            contentFit="contain"
+            source={require('@/assets/images/logo.png')}
+            style={styles.brandLogo}
+          />
+        </View>
         <Text style={[styles.title, { color: theme.text }]}>
           {t('auth.welcome', { appName: env.appDisplayName })}
         </Text>
@@ -116,6 +125,14 @@ export default function LoginScreen() {
 }
 
 const styles = StyleSheet.create({
+  brandContainer: {
+    alignItems: 'center',
+    width: '100%',
+  },
+  brandLogo: {
+    height: 72,
+    width: 72,
+  },
   content: {
     justifyContent: 'center',
   },

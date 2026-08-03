@@ -2,6 +2,7 @@ import { apiRequest, ApiClientError } from '@/services/api-client'
 import i18n from '@/i18n'
 import { env } from '@/config/env'
 import { getStoredSessionToken } from '@/services/session-storage'
+import { appendLocalFile } from '@/utils/form-data-file'
 
 export type PartnerKind = 'station_owner' | 'investor'
 export type PartnerStatus = 'pending' | 'active' | 'suspended'
@@ -94,7 +95,7 @@ export const partnerService = {
 
   uploadAvatar: (file: { name: string; type: string; uri: string }) => {
     const formData = new FormData()
-    formData.append('avatar', file as unknown as Blob)
+    appendLocalFile(formData, 'avatar', file)
     return apiRequest<{ avatarUrl: string }>('/v1/partner/me/avatar', {
       body: formData,
       method: 'POST',

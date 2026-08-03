@@ -34,8 +34,10 @@ export const ProfileAvatar = ({
       {avatarUrl ? (
         <Image
           accessibilityIgnoresInvertColors
+          cachePolicy="memory-disk"
           contentFit="cover"
-          source={{ uri: avatarUrl }}
+          recyclingKey={avatarUrl}
+          source={{ cacheKey: avatarUrl, uri: avatarUrl }}
           style={styles.image}
         />
       ) : (
