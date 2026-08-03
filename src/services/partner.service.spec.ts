@@ -28,6 +28,15 @@ vi.mock('@/i18n', () => ({
   },
 }))
 
+vi.mock('expo-file-system', () => ({
+  File: class MockFile {
+    uri: string
+    constructor(uri: string) {
+      this.uri = uri
+    }
+  },
+}))
+
 import { apiRequest } from '@/services/api-client'
 import { partnerService } from '@/services/partner.service'
 

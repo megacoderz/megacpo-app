@@ -7,7 +7,12 @@ const EAS_PROJECT_ID = 'ae96404c-da46-467f-937b-85dbdf63bbfe'
 
 const displayName =
   process.env.EXPO_PUBLIC_APP_DISPLAY_NAME?.trim() || 'Mega Partner'
-const primaryColor = process.env.EXPO_PUBLIC_PRIMARY_COLOR?.trim() || '#0284c7'
+const isHexColor = (value) => /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(value)
+
+const primaryColor = (() => {
+  const raw = process.env.EXPO_PUBLIC_PRIMARY_COLOR?.trim()
+  return raw && isHexColor(raw) ? raw : '#0284c7'
+})()
 
 /** Avaliado na hora do prebuild (após @expo/env carregar `.env`). */
 const isPersonalTeamDev = () => process.env.EXPO_IOS_PERSONAL_TEAM === '1'
@@ -36,12 +41,14 @@ const personalTeamIosOverrides = () => {
 const buildPlugins = () => {
   // Mantém `react-native-keyboard-controller` só como dependência nativa
   // (autolinking + KeyboardProvider). Não listar em `plugins`.
+  // Sentry: só runtime (`Sentry.init` + EXPO_PUBLIC_SENTRY_*).
+  // Não listar `@sentry/react-native` em plugins — exige organization/project
+  // (ou SENTRY_ORG/SENTRY_PROJECT) e gera warning no `expo run:ios` local.
   return [
     ...(appJson.expo.plugins ?? []),
     'expo-image',
     'expo-localization',
     'expo-secure-store',
-    '@sentry/react-native',
   ]
 }
 

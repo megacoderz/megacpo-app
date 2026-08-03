@@ -34,7 +34,7 @@ Variáveis principais em `env.example.dist`:
 
 - `EXPO_PUBLIC_API_URL` — base da API **sem** `/v1` (ex.: `http://localhost:3001`)
 - `EXPO_PUBLIC_APP_DISPLAY_NAME=Mega Partner`
-- `EXPO_PUBLIC_PRIMARY_COLOR=#0284c7`
+- `EXPO_PUBLIC_PRIMARY_COLOR="#0284c7"`
 
 Em **device físico**, use o IP LAN da máquina (não `localhost`).
 

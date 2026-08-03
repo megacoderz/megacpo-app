@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import { router, type Href } from 'expo-router'
 import { useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
@@ -69,6 +70,8 @@ export default function ProfileScreen() {
     setIsUploading(true)
     try {
       const result = await partnerService.uploadAvatar(file)
+      await Image.clearMemoryCache()
+      await Image.clearDiskCache()
       setAvatarUrl(result.avatarUrl)
       await refreshMe()
     } catch (uploadError) {
@@ -93,6 +96,8 @@ export default function ProfileScreen() {
               setIsRemoving(true)
               try {
                 await partnerService.deleteAvatar()
+                await Image.clearMemoryCache()
+                await Image.clearDiskCache()
                 setAvatarUrl(null)
                 await refreshMe()
               } catch (deleteError) {
