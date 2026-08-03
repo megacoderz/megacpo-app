@@ -1,30 +1,34 @@
 ---
 description: >-
-  Commits da IA nunca na main — branch a partir de main antes de
-  commitar. Pedido de push implica push + criar PR (gh). Dispara skill
-  commit-on-feature-branch.
+  Commits nunca na main. Se branch ≠ main e já teve PR mergeado, baixar main,
+  criar branch nova e só então commit/push/PR. Push implica push + gh pr create.
 alwaysApply: true
 ---
 
 # Commits → branch nova (nunca em `main`)
 
-Em `megapartner/`, commits e push **não** vão direto para `main` — só via feature branch + PR (política Mega Voltz).
+Em `megapartner/`, commits e push **não** vão direto para `main` — só via feature branch + PR.
 
 ## Inegociável
 
 - **Nunca** `git commit` / `git push` com a branch atual igual a `main` (ou `master`)
-- Ao pedir commit (ou commit obrigatório de plano): ler e seguir [`commit-on-feature-branch`](../skills/commit-on-feature-branch/SKILL.md)
+- Se a branch atual for **≠** `main`: verificar com `gh pr list --head <branch> --base main --state merged` se já houve PR mergeado
+  - **Se sim** → `fetch`/`pull` main → `checkout -b <type>/<slug-novo>` → mover WIP/commits → commit/push/PR **na branch nova** (não reutilizar nome mergeado)
+  - **Se não** → pode continuar na branch (ex.: PR ainda aberto)
+- Ao pedir commit: ler e seguir [`commit-on-feature-branch`](../skills/commit-on-feature-branch/SKILL.md)
 - Só depois aplicar [`ai-commit-commitlint`](../skills/ai-commit-commitlint/SKILL.md)
-- Ao pedir **push**: `git push -u origin HEAD` **e em seguida** `gh pr create` (base `main`); se já houver PR, só reportar a URL
+- Ao pedir **push**: `git push -u origin HEAD` **e em seguida** `gh pr create` (base `main`); se já houver PR **open** desta branch, só reportar a URL
+
 
 ## Fluxo mínimo
 
 1. `git branch --show-current`
 2. Se `main` → `fetch` + `checkout main` atualizada → `checkout -b <type>/<slug>`
-3. Commit commitlint **nessa** branch
-4. Reportar **branch** + hash + subject
-5. Se o usuário pedir **push** → push + **criar PR** → reportar URL do PR
+3. Se ≠ `main` e branch **já mergeada** → idem com **slug novo** (não empilhar na mergeada)
+4. Commit Conventional Commits **nessa** branch
+5. Reportar **branch** + hash + subject
+6. Se o usuário pedir **push** → push + **criar PR** → reportar URL do PR
 
 ## Hierarquia
 
-`código` → quality gates → i18n → docs → **feature branch off main** → commit commitlint → (push pedido) **push + PR** → reporte
+`código` → quality gates → i18n → docs → **feature branch off main** (gate merged) → commit commitlint → (push pedido) **push + PR** → reporte
