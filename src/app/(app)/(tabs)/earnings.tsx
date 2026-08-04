@@ -120,7 +120,12 @@ export default function EarningsScreen() {
         </Text>
       </View>
       <Text style={[styles.itemMeta, { color: theme.textSecondary }]}>
-        {t('earnings.splitPercent', { percent: item.splitPercent })}
+        {t('earnings.splitPercent', {
+          percent: Number(item.splitPercent ?? 0).toLocaleString(
+            i18n.language || 'pt-BR',
+            { maximumFractionDigits: 2, minimumFractionDigits: 0 },
+          ),
+        })}
       </Text>
       <Text style={[styles.itemMeta, { color: theme.textSecondary }]}>
         {new Date(item.createdAt).toLocaleDateString(i18n.language || 'pt-BR')}
